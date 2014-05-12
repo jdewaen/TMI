@@ -12,7 +12,13 @@ public class SweepFast extends Algorithm {
 
 	@Override
 	public void solve() {
+		long startTime = System.currentTimeMillis();
 		// TODO Auto-generated method stub
+
+		
+		
+		
+		time = (int) (System.currentTimeMillis() - startTime);
 
 	}
 
