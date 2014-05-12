@@ -16,11 +16,12 @@ public class CircleIntersector {
 		this.N = N;
 		algorithm.setCircles(circles);
 		algorithm.solve();
-		ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
 		System.out.println("Time elapsed: " + algorithm.getTime());
 		writeToOutput("output.txt");
-		if (saveImage)
+		if (saveImage) {
+			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
 			result.save("output.png");
+		}
 	}
 
 	public static void main(String[] args) {
@@ -34,7 +35,7 @@ public class CircleIntersector {
 			} else {
 				filename = "input.txt";
 			}
-			if(args.length > 1 && args[1].equals("image")){
+			if (args.length > 1 && args[1].equals("image")) {
 				saveImage = true;
 			}
 			try {
