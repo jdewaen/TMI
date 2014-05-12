@@ -19,7 +19,7 @@ public class CircleIntersector {
 		System.out.println("Time elapsed: " + algorithm.getTime());
 		writeToOutput("output.txt");
 		if (saveImage) {
-			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
+			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 3);
 			result.save("output.png");
 		}
 	}
