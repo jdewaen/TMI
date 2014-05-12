@@ -9,20 +9,22 @@ import java.util.Iterator;
 public class CircleIntersector {
 	public Algorithm algorithm;
 	public int N;
-	public static boolean generate = true;
+	public static boolean saveImage = false;
 
 	public CircleIntersector(Algorithm algorithm, int N, Circle[] circles) {
 		this.algorithm = algorithm;
 		this.N = N;
 		algorithm.setCircles(circles);
 		algorithm.solve();
-		new ResultWindow(circles, algorithm.intersections, 500, 4);
+		ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
 		System.out.println("Time elapsed: " + algorithm.getTime());
-		writeToFile("output.txt");
+		writeToOutput("output.txt");
+		if (saveImage)
+			result.save("output.png");
 	}
 
 	public static void main(String[] args) {
-		if (args.length >= 3 && args[0].equals("g")) {
+		if (args.length >= 3 && args[0].equals("generate")) {
 			writeToInput(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		} else {
 			BufferedReader br;
@@ -31,6 +33,9 @@ public class CircleIntersector {
 				filename = args[0];
 			} else {
 				filename = "input.txt";
+			}
+			if(args.length > 1 && args[1].equals("image")){
+				saveImage = true;
 			}
 			try {
 				br = new BufferedReader(new FileReader(filename));
@@ -82,7 +87,7 @@ public class CircleIntersector {
 
 	}
 
-	public void writeToFile(String name) {
+	public void writeToOutput(String name) {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(name));
 			String newline = System.getProperty("line.separator");
