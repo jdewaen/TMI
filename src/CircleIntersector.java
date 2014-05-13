@@ -29,11 +29,12 @@ public class CircleIntersector {
 			writeToInput(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		} else {
 			BufferedReader br;
-			String filename;
-			if (args.length > 0) {
+			String filename = "input.txt";
+			if (args.length > 0 && !args[0].equals("stat")) {
 				filename = args[0];
-			} else {
-				filename = "input.txt";
+			} else if (args.length > 1 && args[0].equals("stat")) {
+				generateStats(Integer.valueOf(args[1]));
+				System.exit(0);
 			}
 			if (args.length > 1 && args[1].equals("image")) {
 				saveImage = true;
@@ -126,4 +127,34 @@ public class CircleIntersector {
 		}
 	}
 
+	public static void generateStats(int maxDepth) {
+		Circle[] circles;
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter("stat.txt"));
+			for (int i = 0; i <= maxDepth; i++) {
+				circles = new Circle[(int) Math.pow(2, i)];
+				for (int j = 0; j < Math.pow(2, i); j++) {
+					circles[j] = new Circle(Math.random(), Math.random(), Math.random() * 0.2);
+				}
+				Algorithm one = new BruteForce(circles);
+				Algorithm two = new SweepSlow(circles);
+				Algorithm three = new SweepFast(circles);
+				one.solve();
+				two.solve();
+				three.solve();
+
+				String newline = System.getProperty("line.separator");
+				System.out
+						.println((String.valueOf((int) Math.pow(2, i)) + " " + String.valueOf(one.getTime()) + " " + String.valueOf(two.getTime()) + " " + String
+								.valueOf(three.getTime())));
+				writer.write(String.valueOf((int) Math.pow(2, i)) + " " + String.valueOf(one.getTime()) + " " + String.valueOf(two.getTime()) + " "
+						+ String.valueOf(three.getTime()) + newline);
+
+			}
+			writer.write("done");
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

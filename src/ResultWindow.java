@@ -46,7 +46,7 @@ public class ResultWindow extends JPanel {
 		g.setColor(Color.BLACK);
 		for (int i = 0; i < circles.length; i++) {
 			g.draw(new Ellipse2D.Double((circles[i].getX() - circles[i].getRadius()) * size, (circles[i].getY() - circles[i].getRadius()) * size, circles[i]
-					.getRadius() * size * 2, (circles[i].getRadius() * size * 2)));
+					.getRadius() * size * 2, circles[i].getRadius() * size * 2));
 		}
 		g.setColor(Color.RED);
 		Iterator<Intersection> iter = intersections.iterator();
