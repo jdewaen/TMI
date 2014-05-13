@@ -8,7 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -18,11 +18,11 @@ public class ResultWindow extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 	private Circle[] circles;
-	private ArrayList<Intersection> intersections;
+	private Collection<Intersection> intersections;
 	private int size;
 	private double dotSize;
 
-	public ResultWindow(Circle[] circles, ArrayList<Intersection> intersections, int size, double dotSize) throws HeadlessException {
+	public ResultWindow(Circle[] circles, Collection<Intersection> intersections, int size, double dotSize) throws HeadlessException {
 		this.size = size;
 		this.circles = circles;
 		this.intersections = intersections;

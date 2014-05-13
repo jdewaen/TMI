@@ -1,9 +1,11 @@
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 public abstract class Algorithm {
 	protected Circle[] circles;
 	protected int time = 0;
-	protected ArrayList<Intersection> intersections = new ArrayList<Intersection>();
+	protected Collection<Intersection> intersections = new HashSet<Intersection>();
 
 	public Algorithm() {
 

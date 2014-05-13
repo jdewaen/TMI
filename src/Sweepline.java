@@ -1,8 +1,10 @@
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class Sweepline {
-	private TreeSet<Edge> edges;
+	public TreeSet<Edge> edges;
 	private double x;
 
 	public Sweepline() {
@@ -18,11 +20,19 @@ public class Sweepline {
 	}
 
 	public Edge above(Edge edge) {
-		return edges.higher(edge);
+		if (edges.size() > 1) {
+			return edges.higher(edge);
+		} else {
+			return null;
+		}
 	}
 
 	public Edge below(Edge edge) {
-		return edges.lower(edge);
+		if (edges.size() > 1) {
+			return edges.lower(edge);
+		} else {
+			return null;
+		}
 	}
 
 	public void addEdge(Edge edge) {
@@ -32,11 +42,11 @@ public class Sweepline {
 	public void addAllEdges(Collection<Edge> newedges) {
 		edges.addAll(newedges);
 	}
-	
+
 	public void removeEdge(Edge edge) {
 		edges.remove(edge);
 	}
-	
+
 	public void removeAllEdges(Collection<Edge> newedges) {
 		edges.removeAll(newedges);
 	}

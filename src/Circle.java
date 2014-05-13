@@ -9,14 +9,16 @@ public class Circle {
 	public Edge bottom;
 	private Sweepline line;
 	public int number;
+	boolean simple;
 
 	public Circle(double x, double y, double r) {
 		this.x = x;
 		this.y = y;
 		this.r = r;
+		simple = true;
 	}
 	public void setNumber(int number){
-		this.number;
+		this.number = number;
 	}
 
 	public double getX() {
@@ -42,6 +44,7 @@ public class Circle {
 			bottom = edge;
 		}
 		edges.add(edge);
+		simple = false;
 	}
 
 	public Edge getEdgeByY(double newy) {
@@ -81,6 +84,10 @@ public class Circle {
 			x2 = middleX - h * (oy - y) / centerDistance;
 			y2 = middleY + h * (ox - x) / centerDistance;
 
+			if(simple){
+				solution.add(new Intersection(x1, y1));
+				solution.add(new Intersection(x2, y2));
+			}else{
 			if (x1 > x2) {
 				double temp1 = x1;
 				double temp2 = y1;
@@ -100,6 +107,7 @@ public class Circle {
 
 			solution.add(new Intersection(x1, y1, top.getEdgeByY(y1), bottom.getEdgeByY(y1)));
 			solution.add(new Intersection(x2, y2, bottom.getEdgeByY(y2), top.getEdgeByY(y2)));
+			}
 			return solution;
 		}
 	}

@@ -28,7 +28,11 @@ public class Event implements Comparable<Event> {
 	}
 
 	public List<Edge> getEdges() {
-		return intersection.getEdges();
+		if (type == EventType.SWITCH) {
+			return intersection.getEdges();
+		}else{
+			return circle.getEdges();
+		}
 	}
 
 	public double getValue() {
