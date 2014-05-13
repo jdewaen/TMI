@@ -15,6 +15,7 @@ public class CircleIntersector {
 		this.algorithm = algorithm;
 		this.N = N;
 		algorithm.setCircles(circles);
+		algorithm.setDisplay(new InteractiveDisplay(circles, 800));
 		try {
 			algorithm.solve();
 		} catch (Exception e) {
@@ -23,7 +24,7 @@ public class CircleIntersector {
 		System.out.println("Time elapsed: " + algorithm.getTime());
 		writeToOutput("output.txt");
 		if (saveImage) {
-			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 3);
+			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
 			result.save("output.png");
 		}
 	}
@@ -63,6 +64,7 @@ public class CircleIntersector {
 							System.out.println("Invalid algorithm in first line of input.txt. Must be 1, 2 or 3");
 							System.exit(0);
 						}
+						//algorithm = new SweepSlow();
 						break;
 					case 2:
 						N = Integer.parseInt(line);
@@ -148,10 +150,13 @@ public class CircleIntersector {
 					two.solve();
 					three.solve();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
+				if (one.getAmountofIntersections() != two.getAmountofIntersections() || two.getAmountofIntersections() != three.getAmountofIntersections()) {
+					System.out.println(String.valueOf((int) Math.pow(2, i)) + " FOUT : " + one.getAmountofIntersections() + " "
+							+ two.getAmountofIntersections() + " " + three.getAmountofIntersections());
+				}
 				String newline = System.getProperty("line.separator");
 				System.out
 						.println((String.valueOf((int) Math.pow(2, i)) + " " + String.valueOf(one.getTime()) + " " + String.valueOf(two.getTime()) + " " + String

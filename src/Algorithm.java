@@ -6,6 +6,7 @@ public abstract class Algorithm {
 	protected Circle[] circles;
 	protected int time = 0;
 	protected Collection<Intersection> intersections = new HashSet<Intersection>();
+	protected InteractiveDisplay display;
 
 	public Algorithm() {
 
@@ -13,6 +14,10 @@ public abstract class Algorithm {
 
 	public Algorithm(Circle[] circles) {
 		this.circles = circles;
+	}
+
+	public void setDisplay(InteractiveDisplay display) {
+		this.display = display;
 	}
 
 	public void setCircles(Circle[] circles) {
@@ -35,5 +40,9 @@ public abstract class Algorithm {
 
 	public boolean isImplemented() {
 		return false;
+	}
+
+	public int getAmountofIntersections() {
+		return intersections.size();
 	}
 }

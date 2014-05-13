@@ -23,8 +23,12 @@ public class SweepFast extends Algorithm {
 		PriorityQueue<Event> events = new PriorityQueue<Event>();
 		Sweepline line = new Sweepline();
 		for (int i = 0; i < circles.length; i++) {
-			events.add(new Event(EventType.ADD, circles[i]));
-			events.add(new Event(EventType.REMOVE, circles[i]));
+			Event adding = new Event(EventType.ADD, circles[i]);
+			Event removing = new Event(EventType.REMOVE, circles[i]);
+			events.add(adding);
+			events.add(removing);
+			display.add.add(adding);
+			display.remove.add(removing);
 			circles[i].addSweepLine(line);
 			circles[i].setNumber(i);
 			circles[i].addEdge(new Edge(EdgeType.TOP, circles[i], line));
@@ -33,8 +37,13 @@ public class SweepFast extends Algorithm {
 		while (!events.isEmpty()) {
 			Event currentEvent = events.poll();
 			line.setX(currentEvent.getValue());
+			display.line = line.getX();
+			display.active = currentEvent;
+			display.frame.getContentPane().validate();
+			display.frame.getContentPane().repaint();
+
 			if (currentEvent.getType() == EventType.ADD) {
-				//System.out.println("STARTED ADDING: " + currentEvent.getCircle().number);
+				// System.out.println("STARTED ADDING: " + currentEvent.getCircle().number);
 				Circle currentCircle = currentEvent.getCircle();
 				Edge tempEdge = new Edge(EdgeType.POINT, currentCircle.getY(), line);
 				Edge above = line.above(tempEdge);
@@ -44,7 +53,9 @@ public class SweepFast extends Algorithm {
 					inter = currentCircle.top.intersects(above);
 					Iterator<Intersection> iter = inter.iterator();
 					while (iter.hasNext()) {
-						events.add(new Event(EventType.SWITCH, iter.next()));
+						Event toAdd = new Event(EventType.SWITCH, iter.next());
+						events.add(toAdd);
+						display.swap.add(toAdd);
 					}
 					intersections.addAll(inter);
 					inter.clear();
@@ -53,14 +64,16 @@ public class SweepFast extends Algorithm {
 					inter = currentCircle.bottom.intersects(below);
 					Iterator<Intersection> iter = inter.iterator();
 					while (iter.hasNext()) {
-						events.add(new Event(EventType.SWITCH, iter.next()));
+						Event toAdd = new Event(EventType.SWITCH, iter.next());
+						events.add(toAdd);
+						display.swap.add(toAdd);
 					}
 					intersections.addAll(inter);
 				}
 				line.addAllEdges(currentCircle.getEdges());
 
 			} else if (currentEvent.getType() == EventType.REMOVE) {
-				//System.out.println("STARTED REMOVING: " + currentEvent.getCircle().number);
+				// System.out.println("STARTED REMOVING: " + currentEvent.getCircle().number);
 				List<Edge> edges = currentEvent.getCircle().getEdges();
 				Edge top = currentEvent.circle.top;
 				Edge bottom = currentEvent.circle.bottom;
@@ -71,7 +84,9 @@ public class SweepFast extends Algorithm {
 					inter = top.intersects(above);
 					Iterator<Intersection> iter = inter.iterator();
 					while (iter.hasNext()) {
-						events.add(new Event(EventType.SWITCH, iter.next()));
+						Event toAdd = new Event(EventType.SWITCH, iter.next());
+						events.add(toAdd);
+						display.swap.add(toAdd);
 					}
 					intersections.addAll(inter);
 					inter.clear();
@@ -80,13 +95,15 @@ public class SweepFast extends Algorithm {
 					inter = bottom.intersects(below);
 					Iterator<Intersection> iter = inter.iterator();
 					while (iter.hasNext()) {
-						events.add(new Event(EventType.SWITCH, iter.next()));
+						Event toAdd = new Event(EventType.SWITCH, iter.next());
+						events.add(toAdd);
+						display.swap.add(toAdd);
 					}
 					intersections.addAll(inter);
 				}
 				line.removeAllEdges(edges);
 			} else if (currentEvent.getType() == EventType.SWITCH) {
-				//System.out.println("STARTED SWITCHING");
+				// System.out.println("STARTED SWITCHING");
 				Edge top = currentEvent.getEdges().get(0);
 				Edge bottom = currentEvent.getEdges().get(1);
 				Edge above = line.above(top);
@@ -96,8 +113,12 @@ public class SweepFast extends Algorithm {
 				if (below != null)
 					intersections.addAll(below.intersects(top));
 				line.removeEdge(top);
+				line.removeEdge(bottom);
 				line.addEdge(top);
+				line.addEdge(bottom);
 			}
+			currentEvent.done = true;
+			Thread.sleep(100);
 		}
 
 		time = (int) (System.currentTimeMillis() - startTime);

@@ -5,6 +5,7 @@ public class Event implements Comparable<Event> {
 	EventType type;
 	Circle circle;
 	Intersection intersection;
+	boolean done = false;
 	double x;
 
 	public Event(EventType type, Intersection intersection) {
@@ -32,6 +33,13 @@ public class Event implements Comparable<Event> {
 			return intersection.getEdges();
 		}else{
 			return circle.getEdges();
+		}
+	}
+	public double getY(){
+		if(type == EventType.ADD  || type == EventType.REMOVE){
+			return circle.getY();
+		}else{
+			return intersection.getY();
 		}
 	}
 
