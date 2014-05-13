@@ -17,7 +17,7 @@ public abstract class Algorithm {
 		this.circles = circles;
 	}
 
-	public abstract void solve();
+	public abstract void solve() throws Exception;
 
 	public int getTime() {
 		return time;

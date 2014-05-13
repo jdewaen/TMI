@@ -1,3 +1,3 @@
 public enum EventType {
-	ADD, REMOVE;
+	ADD, REMOVE, SWITCH;
 }

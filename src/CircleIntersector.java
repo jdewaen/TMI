@@ -15,7 +15,11 @@ public class CircleIntersector {
 		this.algorithm = algorithm;
 		this.N = N;
 		algorithm.setCircles(circles);
-		algorithm.solve();
+		try {
+			algorithm.solve();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.out.println("Time elapsed: " + algorithm.getTime());
 		writeToOutput("output.txt");
 		if (saveImage) {
@@ -139,9 +143,14 @@ public class CircleIntersector {
 				Algorithm one = new BruteForce(circles);
 				Algorithm two = new SweepSlow(circles);
 				Algorithm three = new SweepFast(circles);
-				one.solve();
-				two.solve();
-				three.solve();
+				try {
+					one.solve();
+					two.solve();
+					three.solve();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				String newline = System.getProperty("line.separator");
 				System.out
@@ -151,7 +160,7 @@ public class CircleIntersector {
 						+ String.valueOf(three.getTime()) + newline);
 
 			}
-			writer.write("done");
+			System.out.println("done");
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
