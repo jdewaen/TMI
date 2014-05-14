@@ -10,6 +10,7 @@ public class CircleIntersector {
 	public Algorithm algorithm;
 	public int N;
 	public static boolean saveImage = false;
+	public static final double RADIUS = 0.4;
 
 	public CircleIntersector(Algorithm algorithm, int N, Circle[] circles) {
 		this.algorithm = algorithm;
@@ -22,18 +23,18 @@ public class CircleIntersector {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		Algorithm test = new SweepSlow(circles);
+		//Algorithm test = new SweepSlow(circles);
 		try {
 			algorithm.solve();
-			test.solve();
+			//test.solve();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("Time elapsed: " + algorithm.getTime());
 		System.out.println("Intersections: "
 				+ algorithm.getAmountofIntersections());
-		System.out.println("Fast: " + algorithm.getAmountofIntersections()
-				+ " Slow: " + test.getAmountofIntersections());
+		//System.out.println("Fast: " + algorithm.getAmountofIntersections()
+		//		+ " Slow: " + test.getAmountofIntersections());
 		writeToOutput("output.txt");
 		if (saveImage) {
 			ResultWindow result = new ResultWindow(circles,
@@ -145,7 +146,7 @@ public class CircleIntersector {
 			for (int i = 0; i < amount; i++) {
 				writer.write(newline);
 				writer.write(Math.random() + " " + Math.random() + " "
-						+ (Math.random() * 0.3));
+						+ (Math.random() * RADIUS));
 			}
 			writer.close();
 
@@ -164,7 +165,7 @@ public class CircleIntersector {
 			circles = new Circle[maxAmount];
 			for (int i = 0; i < maxAmount; i++) {
 				circles[i] = new Circle(Math.random(), Math.random(),
-						Math.random() * 0.4);
+						Math.random() * RADIUS);
 			}
 			for (int i = 1; i <= maxDepth; i++) {
 				int amount = 100 * i;

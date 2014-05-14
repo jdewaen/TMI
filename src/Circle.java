@@ -73,42 +73,49 @@ public class Circle {
 		}
 		if (centerDistance + r < or || centerDistance + or < r) {
 			return new ArrayList<Intersection>();
+		}else{
+		double a = (Math.pow(r, 2) - Math.pow(or, 2) + Math.pow(centerDistance, 2)) / (2 * centerDistance);
+		double h = Math.sqrt(Math.pow(r, 2) - Math.pow(a, 2));
+		double middleX = x + a * (ox - x) / centerDistance;
+		double middleY = y + a * (oy - y) / centerDistance;
+		ArrayList<Intersection> solution = new ArrayList<Intersection>();
+		double x1, y1, x2, y2;
+		x1 = middleX + h * (oy - y) / centerDistance;
+		y1 = middleY - h * (ox - x) / centerDistance;
+		x2 = middleX - h * (oy - y) / centerDistance;
+		y2 = middleY + h * (ox - x) / centerDistance;
+/*
+		if (centerDistance > r + or) {
+			return new ArrayList<Intersection>();
+		}
+		if (centerDistance + r < or || centerDistance + or < r) {
+			return new ArrayList<Intersection>();
+		}
+	*/	
+		if (simple) {
+			solution.add(new Intersection(x1, y1));
+			solution.add(new Intersection(x2, y2));
 		} else {
-			double a = (Math.pow(r, 2) - Math.pow(or, 2) + Math.pow(centerDistance, 2)) / (2 * centerDistance);
-			double h = Math.sqrt(Math.pow(r, 2) - Math.pow(a, 2));
-			double middleX = x + a * (ox - x) / centerDistance;
-			double middleY = y + a * (oy - y) / centerDistance;
-			ArrayList<Intersection> solution = new ArrayList<Intersection>();
-			double x1, y1, x2, y2;
-			x1 = middleX + h * (oy - y) / centerDistance;
-			y1 = middleY - h * (ox - x) / centerDistance;
-			x2 = middleX - h * (oy - y) / centerDistance;
-			y2 = middleY + h * (ox - x) / centerDistance;
-
-			if (simple) {
-				solution.add(new Intersection(x1, y1));
-				solution.add(new Intersection(x2, y2));
-			} else {
-				if (x1 > x2) {
-					double temp1 = x1;
-					double temp2 = y1;
-					x1 = x2;
-					y1 = y2;
-					x2 = temp1;
-					y2 = temp2;
-				}
-				Circle top, bottom;
-				if (other.getEdgeByY(y1).getY(line.getX()) > this.getEdgeByY(y1).getY(line.getX())) {
-					top = other;
-					bottom = this;
-				} else {
-					top = this;
-					bottom = other;
-				}
-
-				solution.add(new Intersection(x1, y1, top.getEdgeByY(y1), bottom.getEdgeByY(y1)));
-				solution.add(new Intersection(x2, y2, top.getEdgeByY(y2), bottom.getEdgeByY(y2)));
+			if (x1 > x2) {
+				double temp1 = x1;
+				double temp2 = y1;
+				x1 = x2;
+				y1 = y2;
+				x2 = temp1;
+				y2 = temp2;
 			}
+			Circle top, bottom;
+			if (other.getEdgeByY(y1).getY(line.getX()) > this.getEdgeByY(y1).getY(line.getX())) {
+				top = other;
+				bottom = this;
+			} else {
+				top = this;
+				bottom = other;
+			}
+
+			solution.add(new Intersection(x1, y1, top.getEdgeByY(y1), bottom.getEdgeByY(y1)));
+			solution.add(new Intersection(x2, y2, top.getEdgeByY(y2), bottom.getEdgeByY(y2)));
+		}
 			return solution;
 		}
 	}

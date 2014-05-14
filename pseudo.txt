@@ -1,0 +1,44 @@
+//1
+function solve(Circles)
+	n <- #Circles
+	I <- /
+	for i <- 1 to n do
+		for j <- i+1 to n do
+			I <- I U intersections(Circlesi,Circlesj)
+		endfor
+	endfor
+	return I
+end
+
+//2
+function solve(Circles)
+	PriorityQueue events <- /
+	active <- /
+	I <- /
+	foreach C in Circles do
+		events <- events U event(ADD,C)
+		events <- events U event(REMOVE,C)
+	endforeach
+	while not empty(events) do
+		E <- pop(events)
+		C <- circle(E)
+		if type(E) = ADD do
+			foreach A in active do
+				I <- I U intersections(C,A)
+			endforeach
+		else do
+			active <- active / C
+		endif
+	endwhile
+end
+
+
+
+
+
+function intersections(C1,C2)
+I <- /
+
+
+
+end
