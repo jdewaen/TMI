@@ -16,12 +16,15 @@ public class CircleIntersector {
 		this.N = N;
 		algorithm.setCircles(circles);
 		algorithm.setDisplay(new InteractiveDisplay(circles, 800));
+		Algorithm test = new SweepSlow(circles);
 		try {
 			algorithm.solve();
+			test.solve();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("Time elapsed: " + algorithm.getTime());
+		System.out.println("Fast: " + algorithm.getAmountofIntersections() + " Slow: "+ test.getAmountofIntersections());
 		writeToOutput("output.txt");
 		if (saveImage) {
 			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);

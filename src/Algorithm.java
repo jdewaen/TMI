@@ -7,6 +7,7 @@ public abstract class Algorithm {
 	protected int time = 0;
 	protected Collection<Intersection> intersections = new HashSet<Intersection>();
 	protected InteractiveDisplay display;
+	protected boolean showDisplay = false;
 
 	public Algorithm() {
 
@@ -18,6 +19,7 @@ public abstract class Algorithm {
 
 	public void setDisplay(InteractiveDisplay display) {
 		this.display = display;
+		showDisplay = true;
 	}
 
 	public void setCircles(Circle[] circles) {

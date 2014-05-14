@@ -17,7 +17,8 @@ public class Circle {
 		this.r = r;
 		simple = true;
 	}
-	public void setNumber(int number){
+
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
@@ -84,29 +85,29 @@ public class Circle {
 			x2 = middleX - h * (oy - y) / centerDistance;
 			y2 = middleY + h * (ox - x) / centerDistance;
 
-			if(simple){
+			if (simple) {
 				solution.add(new Intersection(x1, y1));
 				solution.add(new Intersection(x2, y2));
-			}else{
-			if (x1 > x2) {
-				double temp1 = x1;
-				double temp2 = y1;
-				x1 = x2;
-				y1 = y2;
-				x2 = temp1;
-				y2 = temp2;
-			}
-			Circle top, bottom;
-			if (other.getEdgeByY(y1).getY(line.getX()) > this.getEdgeByY(y1).getY(line.getX())) {
-				top = other;
-				bottom = this;
 			} else {
-				top = this;
-				bottom = other;
-			}
+				if (x1 > x2) {
+					double temp1 = x1;
+					double temp2 = y1;
+					x1 = x2;
+					y1 = y2;
+					x2 = temp1;
+					y2 = temp2;
+				}
+				Circle top, bottom;
+				if (other.getEdgeByY(y1).getY(line.getX()) > this.getEdgeByY(y1).getY(line.getX())) {
+					top = other;
+					bottom = this;
+				} else {
+					top = this;
+					bottom = other;
+				}
 
-			solution.add(new Intersection(x1, y1, top.getEdgeByY(y1), bottom.getEdgeByY(y1)));
-			solution.add(new Intersection(x2, y2, bottom.getEdgeByY(y2), top.getEdgeByY(y2)));
+				solution.add(new Intersection(x1, y1, top.getEdgeByY(y1), bottom.getEdgeByY(y1)));
+				solution.add(new Intersection(x2, y2, top.getEdgeByY(y2), bottom.getEdgeByY(y2)));
 			}
 			return solution;
 		}

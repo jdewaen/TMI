@@ -5,7 +5,6 @@ public class Intersection {
 
 	private double x, y;
 	public Edge top, bottom;
-	public static final double e = 1e-8;
 	boolean simple;
 
 	public Intersection(double x, double y) {
@@ -41,20 +40,16 @@ public class Intersection {
 		return (top == edge || bottom == edge);
 	}
 
-	private static boolean fuzzyEquals(double x1, double x2) {
-		return (Math.abs(x1 - x2) < e);
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this.getClass() == obj.getClass()) {
 			Intersection other = (Intersection) obj;
 			if (simple) {
-				if (fuzzyEquals(x, other.x) && fuzzyEquals(y, other.y)) {
+				if (Util.fuzzyEquals(x, other.x) && Util.fuzzyEquals(y, other.y)) {
 					return true;
 				}
 			} else {
-				if (fuzzyEquals(x, other.x) && fuzzyEquals(y, other.y) && top.equals(other.top) && bottom.equals(other.bottom)) {
+				if (Util.fuzzyEquals(x, other.x) && Util.fuzzyEquals(y, other.y) && top.equals(other.top) && bottom.equals(other.bottom)) {
 					return true;
 				}
 			}

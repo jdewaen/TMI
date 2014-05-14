@@ -32,8 +32,8 @@ public class InteractiveDisplay extends JPanel {
 	public InteractiveDisplay(Circle[] circles, int size) throws HeadlessException {
 		this.size = size;
 		this.circles = circles;
-		image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
-		setPreferredSize(new Dimension(size, size));
+		image = new BufferedImage((int) (size * 1.25), (int) (size * 1.25), BufferedImage.TYPE_INT_RGB);
+		setPreferredSize(new Dimension((int) (size * 1.25), (int) (size * 1.25)));
 		JFrame frame = new JFrame();
 		frame.add(this);
 		this.frame = frame;
@@ -48,12 +48,13 @@ public class InteractiveDisplay extends JPanel {
 		Graphics2D g = image.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, size, size);
+		g.fillRect(0, 0, (int) (size * 1.25), (int) (size * 1.25));
 		g.setColor(Color.BLACK);
+		g.drawRect((int) (size / 8), (int) (size / 8), size, size);
 		for (int i = 0; i < circles.length; i++) {
-			g.draw(new Ellipse2D.Double((circles[i].getX() - circles[i].getRadius()) * size, (circles[i].getY() - circles[i].getRadius()) * size, circles[i]
-					.getRadius() * size * 2, circles[i].getRadius() * size * 2));
-			g.drawString(circles[i].number + "", (int) (circles[i].getX() * size), (int) (circles[i].getY() * size));
+			g.draw(new Ellipse2D.Double(size / 8 + (circles[i].getX() - circles[i].getRadius()) * size, size / 8 + (circles[i].getY() - circles[i].getRadius())
+					* size, circles[i].getRadius() * size * 2, circles[i].getRadius() * size * 2));
+			g.drawString(circles[i].number + "", (int) (size / 8 + circles[i].getX() * size), (int) (size / 8 + circles[i].getY() * size));
 		}
 		Iterator<Event> iter = add.iterator();
 		while (iter.hasNext()) {
@@ -63,7 +64,7 @@ public class InteractiveDisplay extends JPanel {
 			} else {
 				g.setColor(Color.GREEN);
 			}
-			g.fill(new Ellipse2D.Double(current.getValue() * size - dotSize / 2, current.getY() * size - dotSize / 2, dotSize, dotSize));
+			g.fill(new Ellipse2D.Double(size / 8 + current.getValue() * size - dotSize / 2, size / 8 + current.getY() * size - dotSize / 2, dotSize, dotSize));
 		}
 		iter = swap.iterator();
 		while (iter.hasNext()) {
@@ -73,7 +74,7 @@ public class InteractiveDisplay extends JPanel {
 			} else {
 				g.setColor(Color.BLUE);
 			}
-			g.fill(new Ellipse2D.Double(current.getValue() * size - dotSize / 2, current.getY() * size - dotSize / 2, dotSize, dotSize));
+			g.fill(new Ellipse2D.Double(size / 8 + current.getValue() * size - dotSize / 2, size / 8 + current.getY() * size - dotSize / 2, dotSize, dotSize));
 		}
 		iter = remove.iterator();
 		while (iter.hasNext()) {
@@ -83,14 +84,14 @@ public class InteractiveDisplay extends JPanel {
 			} else {
 				g.setColor(Color.RED);
 			}
-			g.fill(new Ellipse2D.Double(current.getValue() * size - dotSize / 2, current.getY() * size - dotSize / 2, dotSize, dotSize));
+			g.fill(new Ellipse2D.Double(size / 8 + current.getValue() * size - dotSize / 2, size / 8 + current.getY() * size - dotSize / 2, dotSize, dotSize));
 		}
 		if (active != null) {
 			g.setColor(Color.BLACK);
-			g.fill(new Ellipse2D.Double(active.getValue() * size - dotSize, active.getY() * size - dotSize, dotSize * 2, dotSize * 2));
+			g.fill(new Ellipse2D.Double(size / 8 + active.getValue() * size - dotSize, size / 8 + active.getY() * size - dotSize, dotSize * 2, dotSize * 2));
 		}
 		g.setColor(Color.BLACK);
-		g.draw(new Line2D.Double(line * size, 0, line * size, size));
+		g.draw(new Line2D.Double(size / 8 + line * size, 0, size / 8 + line * size, size * 1.25));
 		g.dispose();
 		repaint();
 
