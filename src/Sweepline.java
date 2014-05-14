@@ -1,14 +1,11 @@
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class Sweepline {
-	public TreeSet<Edge> edges;
+	public TreeSet<LineElement> edges;
 	private double x;
 
 	public Sweepline() {
-		edges = new TreeSet<Edge>();
+		edges = new TreeSet<LineElement>();
 	}
 
 	public void setX(double x) {
@@ -21,7 +18,12 @@ public class Sweepline {
 
 	public Edge above(Edge edge) {
 		if (edges.size() > 1) {
-			return edges.higher(edge);
+			LineElement result = edges.higher(edge.parent);
+			if(result != null){
+				return result.edge;
+			}else{
+				return null;
+			}
 		} else {
 			return null;
 		}
@@ -29,26 +31,32 @@ public class Sweepline {
 
 	public Edge below(Edge edge) {
 		if (edges.size() > 1) {
-			return edges.lower(edge);
+			LineElement result = edges.lower(edge.parent);
+			if(result != null){
+				return result.edge;
+			}else{
+				return null;
+			}
 		} else {
 			return null;
 		}
 	}
 
 	public void addEdge(Edge edge) {
-		edges.add(edge);
+		edges.add(new LineElement(edge));
 	}
 
-	public void addAllEdges(Collection<Edge> newedges) {
-		edges.addAll(newedges);
-	}
+	//public void addAllEdges(Collection<Edge> newedges) {
+		
+		//edges.addAll(newedges);
+	//}
 
 	public void removeEdge(Edge edge) {
-		edges.remove(edge);
+		edges.remove(edge.parent);
 	}
 
-	public void removeAllEdges(Collection<Edge> newedges) {
-		edges.removeAll(newedges);
-	}
+	//public void removeAllEdges(Collection<Edge> newedges) {
+		//edges.removeAll(newedges);
+	//}
 
 }

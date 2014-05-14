@@ -9,7 +9,7 @@ public class Circle {
 	public Edge bottom;
 	private Sweepline line;
 	public int number;
-	boolean simple;
+	public boolean simple;
 
 	public Circle(double x, double y, double r) {
 		this.x = x;

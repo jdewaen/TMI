@@ -15,7 +15,13 @@ public class CircleIntersector {
 		this.algorithm = algorithm;
 		this.N = N;
 		algorithm.setCircles(circles);
-		algorithm.setDisplay(new InteractiveDisplay(circles, 800));
+		if (saveImage)
+			try {
+				algorithm.setDisplay(new InteractiveDisplay(circles, 600));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		Algorithm test = new SweepSlow(circles);
 		try {
 			algorithm.solve();
@@ -24,10 +30,14 @@ public class CircleIntersector {
 			e.printStackTrace();
 		}
 		System.out.println("Time elapsed: " + algorithm.getTime());
-		System.out.println("Fast: " + algorithm.getAmountofIntersections() + " Slow: "+ test.getAmountofIntersections());
+		System.out.println("Intersections: "
+				+ algorithm.getAmountofIntersections());
+		System.out.println("Fast: " + algorithm.getAmountofIntersections()
+				+ " Slow: " + test.getAmountofIntersections());
 		writeToOutput("output.txt");
 		if (saveImage) {
-			ResultWindow result = new ResultWindow(circles, algorithm.intersections, 800, 4);
+			ResultWindow result = new ResultWindow(circles,
+					algorithm.intersections, 600, 4);
 			result.save("output.png");
 		}
 	}
@@ -64,10 +74,11 @@ public class CircleIntersector {
 						} else if (line.equals("3")) {
 							algorithm = new SweepFast();
 						} else {
-							System.out.println("Invalid algorithm in first line of input.txt. Must be 1, 2 or 3");
+							System.out
+									.println("Invalid algorithm in first line of input.txt. Must be 1, 2 or 3");
 							System.exit(0);
 						}
-						//algorithm = new SweepSlow();
+						// algorithm = new SweepSlow();
 						break;
 					case 2:
 						N = Integer.parseInt(line);
@@ -77,7 +88,10 @@ public class CircleIntersector {
 					default:
 						if (linenumber - 2 <= N) {
 							String[] values = line.split(" ");
-							circles[linenumber - 3] = new Circle(Double.parseDouble(values[0]), Double.parseDouble(values[1]), Double.parseDouble(values[2]));
+							circles[linenumber - 3] = new Circle(
+									Double.parseDouble(values[0]),
+									Double.parseDouble(values[1]),
+									Double.parseDouble(values[2]));
 						}
 						break;
 					}
@@ -105,10 +119,12 @@ public class CircleIntersector {
 			if (!algorithm.isImplemented()) {
 				writer.write("0");
 			} else {
-				Iterator<Intersection> iter = algorithm.getIntersections().iterator();
+				Iterator<Intersection> iter = algorithm.getIntersections()
+						.iterator();
 				while (iter.hasNext()) {
 					Intersection current = iter.next();
-					writer.write(current.getX() + " " + current.getY() + newline);
+					writer.write(current.getX() + " " + current.getY()
+							+ newline);
 				}
 				writer.write(newline);
 				writer.write(String.valueOf(algorithm.getTime()));
@@ -121,13 +137,15 @@ public class CircleIntersector {
 
 	public static void writeToInput(int amount, int algorithm) {
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("input.txt"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(
+					"input.txt"));
 			String newline = System.getProperty("line.separator");
 			writer.write(algorithm + newline);
 			writer.write(String.valueOf(amount));
 			for (int i = 0; i < amount; i++) {
 				writer.write(newline);
-				writer.write(Math.random() + " " + Math.random() + " " + (Math.random() * 0.2));
+				writer.write(Math.random() + " " + Math.random() + " "
+						+ (Math.random() * 0.3));
 			}
 			writer.close();
 
@@ -139,33 +157,47 @@ public class CircleIntersector {
 	public static void generateStats(int maxDepth) {
 		Circle[] circles;
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter("stat.txt"));
-			for (int i = 0; i <= maxDepth; i++) {
-				circles = new Circle[(int) Math.pow(2, i)];
-				for (int j = 0; j < Math.pow(2, i); j++) {
-					circles[j] = new Circle(Math.random(), Math.random(), Math.random() * 0.2);
-				}
-				Algorithm one = new BruteForce(circles);
-				Algorithm two = new SweepSlow(circles);
-				Algorithm three = new SweepFast(circles);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(
+					"stat.txt"));
+			// int maxAmount = 1 * (int) Math.pow(2, maxDepth);
+			int maxAmount = 100 * maxDepth;
+			circles = new Circle[maxAmount];
+			for (int i = 0; i < maxAmount; i++) {
+				circles[i] = new Circle(Math.random(), Math.random(),
+						Math.random() * 0.4);
+			}
+			for (int i = 1; i <= maxDepth; i++) {
+				int amount = 100 * i;
+				Circle[] subcircles = new Circle[amount];
+				System.arraycopy(circles, 0, subcircles, 0, amount);
+				Algorithm one = new BruteForce(subcircles);
+				Algorithm two = new SweepSlow(subcircles);
+				Algorithm three = new SweepFast(subcircles);
 				try {
 					one.solve();
 					two.solve();
-					three.solve();
+					// three.solve();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
-				if (one.getAmountofIntersections() != two.getAmountofIntersections() || two.getAmountofIntersections() != three.getAmountofIntersections()) {
-					System.out.println(String.valueOf((int) Math.pow(2, i)) + " FOUT : " + one.getAmountofIntersections() + " "
-							+ two.getAmountofIntersections() + " " + three.getAmountofIntersections());
+				if (one.getAmountofIntersections() != two
+						.getAmountofIntersections()) {
+					System.out.println(String.valueOf(amount) + " FOUT : "
+							+ one.getAmountofIntersections() + " "
+							+ two.getAmountofIntersections() + " "
+							+ three.getAmountofIntersections());
 				}
+
 				String newline = System.getProperty("line.separator");
-				System.out
-						.println((String.valueOf((int) Math.pow(2, i)) + " " + String.valueOf(one.getTime()) + " " + String.valueOf(two.getTime()) + " " + String
-								.valueOf(three.getTime())));
-				writer.write(String.valueOf((int) Math.pow(2, i)) + " " + String.valueOf(one.getTime()) + " " + String.valueOf(two.getTime()) + " "
-						+ String.valueOf(three.getTime()) + newline);
+				System.out.println((String.valueOf(amount) + " "
+						+ String.valueOf(one.getTime()) + " "
+						+ String.valueOf(two.getTime()) + " " + String
+						.valueOf(three.getTime())));
+				writer.write(String.valueOf(String.valueOf(amount) + " "
+						+ String.valueOf(one.getTime()) + " "
+						+ String.valueOf(two.getTime()) + " "
+						+ String.valueOf(three.getTime()) + newline));
 
 			}
 			System.out.println("done");

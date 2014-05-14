@@ -15,6 +15,9 @@ public class SweepSlow extends Algorithm {
 
 	@Override
 	public void solve() {
+		for (int i = 0; i < circles.length; i++) {
+			circles[i].simple = true;
+		}
 		long startTime = System.currentTimeMillis();
 		PriorityQueue<Event> events = new PriorityQueue<Event>();
 		ArrayList<Circle> active = new ArrayList<Circle>();

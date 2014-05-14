@@ -11,8 +11,10 @@ public class BruteForce extends Algorithm {
 
 	@Override
 	public void solve() {
+		for (int i = 0; i < circles.length; i++) {
+			circles[i].simple = true;
+		}
 		long startTime = System.currentTimeMillis();
-
 		for (int i = 0; i < circles.length; i++) {
 			for (int j = i + 1; j < circles.length; j++) {
 				ArrayList<Intersection> newIntersections = circles[i].intersects(circles[j]);

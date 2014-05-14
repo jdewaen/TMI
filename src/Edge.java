@@ -8,10 +8,12 @@ public class Edge implements Comparable<Edge> {
 	private Circle circle;
 	EdgeType type;
 	Sweepline line;
+	public LineElement parent;
 
 	public Edge(EdgeType type, Circle circle, Sweepline line) throws Exception {
 		if (type == EdgeType.POINT)
-			throw new Exception("Tried to use TOP/BOTTOM Edge constructor with POINT type");
+			throw new Exception(
+					"Tried to use TOP/BOTTOM Edge constructor with POINT type");
 		this.circle = circle;
 		this.type = type;
 		this.line = line;
@@ -19,7 +21,8 @@ public class Edge implements Comparable<Edge> {
 
 	public Edge(EdgeType type, double y, Sweepline line) throws Exception {
 		if (type != EdgeType.POINT)
-			throw new Exception("Tried to use POINT Edge constructor without correct type");
+			throw new Exception(
+					"Tried to use POINT Edge constructor without correct type");
 		this.y = y;
 		this.type = type;
 		this.line = line;
@@ -97,6 +100,27 @@ public class Edge implements Comparable<Edge> {
 			return 1;
 		} else {
 			return 0;
+		}
+	}
+
+	public Intersection intersects(double lineX) {
+		List<Intersection> raw = circle.intersects(lineX);
+		if (raw.size() > 1) {
+			if (raw.get(0).getY() > raw.get(1).getY()) {
+				if (type == EdgeType.TOP) {
+					return raw.get(0);
+				} else {
+					return raw.get(1);
+				}
+			} else {
+				if (type == EdgeType.BOTTOM) {
+					return raw.get(0);
+				} else {
+					return raw.get(1);
+				}
+			}
+		} else {
+			return null;
 		}
 	}
 

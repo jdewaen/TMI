@@ -39,18 +39,16 @@ public class SweepFast extends Algorithm {
 		while (!events.isEmpty()) {
 			Event currentEvent = events.poll();
 			line.setX(currentEvent.getValue());
-			if (showDisplay) {
-				display.line = line.getX();
-				display.active = currentEvent;
-				display.frame.getContentPane().validate();
-				display.frame.getContentPane().repaint();
-			}
+
 			if (currentEvent.getType() == EventType.ADD) {
-				// System.out.println("STARTED ADDING: " + currentEvent.getCircle().number);
+				// System.out.println("STARTED ADDING: " +
+				// currentEvent.getCircle().number);
 				Circle currentCircle = currentEvent.getCircle();
-				Edge tempEdge = new Edge(EdgeType.POINT, currentCircle.getY(), line);
-				Edge above = line.above(tempEdge);
-				Edge below = line.below(tempEdge);
+				LineElement tempEdge = new LineElement(new Edge(EdgeType.POINT,
+						currentCircle.getY(), line));
+				Edge above = line.above(tempEdge.edge);
+				Edge below = line.below(tempEdge.edge);
+				setNeighbors(above, below, line.getX());
 				if (above != null) {
 					addAllSwitchEvents(currentCircle.top.intersects(above));
 				}
@@ -58,41 +56,47 @@ public class SweepFast extends Algorithm {
 					addAllSwitchEvents(currentCircle.bottom.intersects(below));
 
 				}
-				line.addAllEdges(currentCircle.getEdges());
+				line.addEdge(currentCircle.top);
+				line.addEdge(currentCircle.bottom);
 
 			} else if (currentEvent.getType() == EventType.REMOVE) {
-				// System.out.println("STARTED REMOVING: " + currentEvent.getCircle().number);
-				List<Edge> edges = currentEvent.getCircle().getEdges();
+				// System.out.println("STARTED REMOVING: " +
+				// currentEvent.getCircle().number);
 				Edge top = currentEvent.circle.top;
 				Edge bottom = currentEvent.circle.bottom;
 				Edge above = line.above(top);
 				Edge below = line.below(bottom);
-				List<Intersection> inter;
+				setNeighbors(above, below, line.getX());
 				if (above != null) {
 					addAllSwitchEvents(top.intersects(above));
 				}
 				if (below != null) {
 					addAllSwitchEvents(bottom.intersects(below));
 				}
-				line.removeAllEdges(edges);
+				line.removeEdge(top);
+				line.removeEdge(bottom);
 			} else if (currentEvent.getType() == EventType.SWITCH) {
 				// System.out.println("STARTED SWITCHING");
 				Edge top = currentEvent.getEdges().get(0);
 				Edge bottom = currentEvent.getEdges().get(1);
-				//if (line.above(bottom) != top || line.below(top) != bottom)
-					//System.out.println("TOP NOT ABOVE BOTTOM");
+				// if (line.above(bottom) != top || line.below(top) != bottom)
+				// System.out.println("TOP NOT ABOVE BOTTOM");
 				Edge above = line.above(top);
 				Edge below = line.below(bottom);
+				setNeighbors(above, below, line.getX());
 				if (above != null)
 					addAllSwitchEvents(above.intersects(bottom));
 				if (below != null)
 					addAllSwitchEvents(below.intersects(top));
-				line.removeEdge(top);
-				line.removeEdge(bottom);
-				line.addEdge(top);
-				line.addEdge(bottom);
+				top.parent.swap(bottom.parent);
 			}
 			currentEvent.done = true;
+			if (showDisplay) {
+				display.line = line;
+				display.active = currentEvent;
+				display.frame.getContentPane().validate();
+				display.frame.getContentPane().repaint();
+			}
 			if (showDisplay)
 				Thread.sleep(200);
 		}
@@ -108,6 +112,13 @@ public class SweepFast extends Algorithm {
 			if (showDisplay)
 				display.swap.add(toAdd);
 		}
+	}
+
+	private void setNeighbors(Edge above, Edge below, double lineX) {
+		if (above != null)
+			display.above = above.getY(lineX);
+		if (below != null)
+			display.below = below.getY(lineX);
 	}
 
 	private void addAllSwitchEvents(Collection<Intersection> inter) {
