@@ -10,7 +10,7 @@ public class CircleIntersector {
 	public Algorithm algorithm;
 	public int N;
 	public static boolean saveImage = false;
-	public static final double RADIUS = 0.4;
+	public static final double RADIUS = 0.2;
 
 	public CircleIntersector(Algorithm algorithm, int N, Circle[] circles) {
 		this.algorithm = algorithm;
@@ -164,7 +164,7 @@ public class CircleIntersector {
 			int maxAmount = 100 * maxDepth;
 			circles = new Circle[maxAmount];
 			for (int i = 0; i < maxAmount; i++) {
-				circles[i] = new Circle(Math.random(), Math.random(),
+				circles[i] = new Circle(0.5, Math.random(),
 						Math.random() * RADIUS);
 			}
 			for (int i = 1; i <= maxDepth; i++) {
@@ -177,7 +177,7 @@ public class CircleIntersector {
 				try {
 					one.solve();
 					two.solve();
-					three.solve();
+					//three.solve();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

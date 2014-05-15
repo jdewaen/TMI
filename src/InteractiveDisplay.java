@@ -27,7 +27,7 @@ public class InteractiveDisplay extends JPanel {
 	public JFrame frame;
 	public Sweepline line = new Sweepline();
 	private int size;
-	private double dotSize = 6;
+	private double dotSize = 10;
 
 	public InteractiveDisplay(Circle[] circles, int size) throws Exception {
 		this.size = size;
@@ -52,16 +52,16 @@ public class InteractiveDisplay extends JPanel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, (int) (size * 1.25), (int) (size * 1.25));
 		g.setColor(Color.BLACK);
-		g.drawRect((int) (size / 8), (int) (size / 8), size, size);
+		//g.drawRect((int) (size / 8), (int) (size / 8), size, size);
 		for (int i = 0; i < circles.length; i++) {
 			g.draw(new Ellipse2D.Double(size / 8
 					+ (circles[i].getX() - circles[i].getRadius()) * size, size
 					/ 8 + (circles[i].getY() - circles[i].getRadius()) * size,
 					circles[i].getRadius() * size * 2, circles[i].getRadius()
 							* size * 2));
-			g.drawString(circles[i].number + "",
-					(int) (size / 8 + circles[i].getX() * size),
-					(int) (size / 8 + circles[i].getY() * size));
+			//g.drawString(circles[i].number + "",
+				//	(int) (size / 8 + circles[i].getX() * size),
+				//	(int) (size / 8 + circles[i].getY() * size));
 		}
 		Iterator<Event> iter = add.iterator();
 		while (iter.hasNext()) {
