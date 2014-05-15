@@ -52,7 +52,7 @@ public class ResultWindow extends JPanel {
 		Iterator<Intersection> iter = intersections.iterator();
 		while (iter.hasNext()) {
 			Intersection current = iter.next();
-			g.fill(new Ellipse2D.Double(current.getX() * size - dotSize / 2, current.getY() * size - dotSize / 2, dotSize, dotSize));
+			g.fill(new Ellipse2D.Double(current.x * size - dotSize / 2, current.y * size - dotSize / 2, dotSize, dotSize));
 		}
 		g.dispose();
 		repaint();

@@ -15,19 +15,16 @@ public class SweepSlow extends Algorithm {
 
 	@Override
 	public void solve() {
-		for (int i = 0; i < circles.length; i++) {
-			circles[i].simple = true;
-		}
 		long startTime = System.currentTimeMillis();
-		PriorityQueue<Event> events = new PriorityQueue<Event>();
+		PriorityQueue<SimpleEvent> events = new PriorityQueue<SimpleEvent>();
 		ArrayList<Circle> active = new ArrayList<Circle>();
 		for (int i = 0; i < circles.length; i++) {
-			events.add(new Event(EventType.ADD, circles[i]));
-			events.add(new Event(EventType.REMOVE, circles[i]));
+			events.add(new SimpleEvent(EventType.ADD, circles[i]));
+			events.add(new SimpleEvent(EventType.REMOVE, circles[i]));
 		}
 		while (!events.isEmpty()) {
-			Event currentEvent = events.poll();
-			if (currentEvent.getType() == EventType.ADD) {
+			SimpleEvent currentEvent = events.poll();
+			if (currentEvent.type == EventType.ADD) {
 				Iterator<Circle> iter = active.iterator();
 				while (iter.hasNext()) {
 					ArrayList<Intersection> result;

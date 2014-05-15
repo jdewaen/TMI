@@ -18,15 +18,15 @@ public class CircleIntersector {
 		algorithm.setCircles(circles);
 		if (saveImage)
 			try {
-				algorithm.setDisplay(new InteractiveDisplay(circles, 600));
+				algorithm.display = new InteractiveDisplay(circles, 600);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		//Algorithm test = new SweepSlow(circles);
+		Algorithm test = new SweepSlow(circles);
 		try {
 			algorithm.solve();
-			//test.solve();
+			test.solve();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,7 +124,7 @@ public class CircleIntersector {
 						.iterator();
 				while (iter.hasNext()) {
 					Intersection current = iter.next();
-					writer.write(current.getX() + " " + current.getY()
+					writer.write(current.x + " " + current.y
 							+ newline);
 				}
 				writer.write(newline);
@@ -177,7 +177,7 @@ public class CircleIntersector {
 				try {
 					one.solve();
 					two.solve();
-					// three.solve();
+					three.solve();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

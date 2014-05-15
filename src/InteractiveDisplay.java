@@ -2,11 +2,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.HeadlessException;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +26,6 @@ public class InteractiveDisplay extends JPanel {
 	public Event active;
 	public JFrame frame;
 	public Sweepline line = new Sweepline();
-	public double above = 0;
-	public double below = 0;
 	private int size;
 	private double dotSize = 6;
 
@@ -112,17 +108,6 @@ public class InteractiveDisplay extends JPanel {
 		g.setColor(Color.BLACK);
 		g.draw(new Line2D.Double(size / 8 + line.getX() * size, 0, size / 8
 				+ line.getX() * size, size * 1.25));
-		if (active != null) {
-			g.setColor(Color.ORANGE);
-			g.fill(new Rectangle2D.Double(size / 8 + line.getX() * size
-					- dotSize / 2, size / 8 + above * size - dotSize / 2,
-					dotSize, dotSize));
-			g.setColor(Color.PINK);
-			g.fill(new Rectangle2D.Double(size / 8 + line.getX() * size
-					- dotSize / 2, size / 8 + below * size - dotSize / 2,
-					dotSize, dotSize));
-
-		}
 
 		g.dispose();
 		repaint();
